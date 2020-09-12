@@ -13,9 +13,9 @@ namespace MaerskCodingTest.PromotionEngine.Service.Models
 
         public int NumberOfSKUItems { get; set; }
 
-        public int FixedPrice { get; set; }
+        public double FixedPrice { get; set; }
 
-        public int DiscountPerUnitPrice { get; set; }
+        public int DiscountPerUnit { get; set; }
 
         public Guid PrmotionTypeId { get; set; }
     }

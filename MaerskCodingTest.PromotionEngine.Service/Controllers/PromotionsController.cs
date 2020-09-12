@@ -36,5 +36,53 @@ namespace MaerskCodingTest.PromotionEngine.Service.Controllers
 
             return _promotionsRepository.AddPromotion(promotion);
         }
+
+        [HttpPost]
+        [Route("calculate-order-with-promotion")]
+        public double CalculateOrderWithPromotion([FromBody] CalculatePromotionRequest promotionRequest)
+        {
+            if (promotionRequest == null || promotionRequest.PromotionId == null) return 0;
+
+            return PromotionEngine(promotionRequest);
+        }
+
+        private double PromotionEngine(CalculatePromotionRequest promotionRequest)
+        {
+            var promotion = _promotionsRepository.GetPromotion(Guid.Parse(promotionRequest.PromotionId));
+            if (promotion == null)
+            {
+                return 0;
+            }
+
+            var promoType = _promotionsRepository.GetPromotionType(promotion.PrmotionTypeId);
+            if (promoType == null)
+            {
+                return 0;
+            }
+
+            switch (promoType.Name)
+            {
+                case "FixedPricePerNSKUItmes":
+                    double totalCalculatedPromoAmount = 0;
+                    
+                    promotionRequest.Skus.ForEach((checkoutSku) =>
+                    {
+                        bool isIncludedInPromo = promotion.SKUs.Contains(checkoutSku.Name);
+                        if (isIncludedInPromo && checkoutSku.SkuQuantity >= promotion.NumberOfSKUItems)
+                        {
+                            double remainingQuantityCal = (checkoutSku.SkuQuantity % promotion.NumberOfSKUItems) * checkoutSku.Rate;
+                            double fixedQuantityCalculation = checkoutSku.SkuQuantity / promotion.NumberOfSKUItems * promotion.FixedPrice;
+                            totalCalculatedPromoAmount += fixedQuantityCalculation + remainingQuantityCal;
+                        }
+                        else
+                        {
+                            totalCalculatedPromoAmount += checkoutSku.SkuQuantity * checkoutSku.Rate;
+                        }
+                    });
+                    
+                    return totalCalculatedPromoAmount;
+            };
+            return 0;
+        }
     }
 }

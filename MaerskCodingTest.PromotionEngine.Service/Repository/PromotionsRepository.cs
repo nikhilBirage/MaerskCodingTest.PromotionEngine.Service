@@ -6,9 +6,13 @@ namespace MaerskCodingTest.PromotionEngine.Service.Repository
 {
     public interface IPromotionsRepository
     {
+        // Promotion
         IEnumerable<Promotion> GetPromotions();
         Promotion GetPromotion(Guid id);
         bool AddPromotion(Promotion promotion);
+
+        // Promotion type
+        PromotionType GetPromotionType(Guid id);
     }
 
     public class PromotionsRepository : IPromotionsRepository
@@ -36,5 +40,9 @@ namespace MaerskCodingTest.PromotionEngine.Service.Repository
             return true;
         }
 
+        public PromotionType GetPromotionType(Guid id)
+        {
+            return PromotionsDb.promotionTypes.Find(x => x.Id == id);
+        }
     }
 }

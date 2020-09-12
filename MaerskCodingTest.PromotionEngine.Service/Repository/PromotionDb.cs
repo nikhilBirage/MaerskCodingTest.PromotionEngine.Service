@@ -29,7 +29,7 @@ namespace MaerskCodingTest.PromotionEngine.Service.Repository
                 PrmotionTypeId = promotionTypes[0].Id,
                 FixedPrice = 130,
                 NumberOfSKUItems = 3,
-                DiscountPerUnitPrice = 0,
+                DiscountPerUnit = 0,
                 SKUs = new List<string>() { "A" }
             },
              new Promotion()
@@ -39,7 +39,7 @@ namespace MaerskCodingTest.PromotionEngine.Service.Repository
                 PrmotionTypeId = promotionTypes[0].Id,
                 FixedPrice = 45,
                 NumberOfSKUItems = 2,
-                DiscountPerUnitPrice = 0,
+                DiscountPerUnit = 0,
                 SKUs = new List<string>() { "B" }
             },
              new Promotion()
@@ -49,10 +49,9 @@ namespace MaerskCodingTest.PromotionEngine.Service.Repository
                 PrmotionTypeId = promotionTypes[1].Id,
                 FixedPrice = 30,
                 NumberOfSKUItems = 0,
-                DiscountPerUnitPrice = 0,
+                DiscountPerUnit = 0,
                 SKUs = new List<string>() { "C" , "D" }
             }
         };
-
     }
 }
