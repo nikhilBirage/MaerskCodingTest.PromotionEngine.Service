@@ -30,6 +30,8 @@ namespace MaerskCodingTest.PromotionEngine.Service.Repository
 
         public bool AddPromotion(Promotion promotion)
         {
+            if (promotion == null) return false;
+
             try
             {
                 PromotionsDb.promotions.Add(promotion);
@@ -41,7 +43,7 @@ namespace MaerskCodingTest.PromotionEngine.Service.Repository
             return true;
         }
 
-
+        // Promotion type
         public IEnumerable<PromotionType> GetPromotionTypes()
         {
             return PromotionsDb.promotionTypes;
