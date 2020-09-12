@@ -48,5 +48,57 @@ namespace MaerskCodingTest.PromotionEngine.Service.UnitTests
             // Assert
             Assert.IsFalse(result);
         }
+
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void GetPromotions_GetPromotions_ReturnPromotions()
+        {
+            // Act
+            var result = _promotionsRepository.GetPromotions();
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void GetPromotionTypes_GetPromotionTypes_ReturnPromotionTypes()
+        {
+            // Act
+            var result = _promotionsRepository.GetPromotionTypes();
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void GetPromotionById_OnValidId_ReturnPromotion()
+        {
+            // Arrange
+            var id = PromotionsDb.promotions[0].Id;
+
+            // Act
+            var result = _promotionsRepository.GetPromotion(id);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(id, result.Id);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void GetPromotionTypesById_OnValidId_ReturnPromotionTypes()
+        {
+            // Arrange
+            var id = PromotionsDb.promotionTypes[0].Id;
+
+            // Act
+            var result = _promotionsRepository.GetPromotionType(id);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(id, result.Id);
+        }
     }
 }
