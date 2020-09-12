@@ -74,6 +74,17 @@ namespace MaerskCodingTest.PromotionEngine.Service.UnitTests
 
         [TestMethod]
         [TestCategory("Unit")]
+        public void GetPromotionTypes_GetPromotionTypes_ReturnPromotionTypes()
+        {
+            // Act
+            var result = _promotionsController.GetPromotionTypes();
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit")]
         public void GetById_OnValidId_ReturnPromotion()
         {
             // Arrange

@@ -23,6 +23,13 @@ namespace MaerskCodingTest.PromotionEngine.Service.Controllers
             return _promotionsRepository.GetPromotions();
         }
 
+        [HttpGet]
+        [Route("promotion-types")]
+        public IEnumerable<PromotionType> GetPromotionTypes() 
+        {
+            return _promotionsRepository.GetPromotionTypes();
+        }
+
         [HttpGet("{id}")]
         public Promotion Get(Guid id)
         {
