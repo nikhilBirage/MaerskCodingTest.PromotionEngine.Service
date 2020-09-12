@@ -81,6 +81,34 @@ namespace MaerskCodingTest.PromotionEngine.Service.Controllers
                     });
                     
                     return totalCalculatedPromoAmount;
+
+                case "FixedPriceForMoreThanOneSKUs":
+                    double totalCalculatedPromoAmountCase2 = 0;
+                    var matchedList = new List<SkuRequest>();
+                    promotionRequest.Skus.ForEach((checkoutSku) =>
+                    {
+                        bool isIncludedInPromo = promotion.SKUs.Contains(checkoutSku.Name);
+                        if (isIncludedInPromo)
+                        {
+                            matchedList.Add(checkoutSku);
+                        }
+                        else
+                        {
+                            totalCalculatedPromoAmountCase2 += checkoutSku.SkuQuantity * checkoutSku.Rate;
+                        }
+                    });
+                    if(matchedList.Count == promotion.SKUs.Count)
+                    {
+                        totalCalculatedPromoAmountCase2 += promotion.FixedPrice;
+                    }
+                    else
+                    {
+                        matchedList.ForEach((sku) =>
+                        {
+                            totalCalculatedPromoAmountCase2 += sku.SkuQuantity * sku.Rate;
+                        });
+                    }
+                    return totalCalculatedPromoAmountCase2;
             };
             return 0;
         }

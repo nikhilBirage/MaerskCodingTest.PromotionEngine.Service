@@ -24,6 +24,16 @@ namespace MaerskCodingTest.PromotionEngine.Service.UnitTests
                 NumberOfSKUItems = 3,
                 DiscountPerUnit = 0,
                 SKUs = new List<string>() { "A" }
+            },
+            new Promotion()
+            {
+                Id = Guid.Parse("1AA7E44F-6C5D-46CB-84D0-87720CDB58E6"),
+                Name = "C & D for 130",
+                PrmotionTypeId = Guid.Parse("1AA7E44F-6C5D-46CB-84D0-87720CDB58E4"),
+                FixedPrice = 30,
+                NumberOfSKUItems = 0,
+                DiscountPerUnit = 0,
+                SKUs = new List<string>() { "C", "D" }
             }
         };
 
@@ -281,6 +291,80 @@ namespace MaerskCodingTest.PromotionEngine.Service.UnitTests
 
             // Assert
             Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void CalculateOrderWithPromotion_OnValdInput_ShouldCalculateBasedOnPromotion_Promo2_Scenario1()
+        {
+            // Arrange
+            var mockRequest = new CalculatePromotionRequest()
+            {
+                PromotionId = "1AA7E44F-6C5D-46CB-84D0-87720CDB58E3",
+                Skus = new List<SkuRequest>()
+               {
+                   new SkuRequest()
+                   {
+                       Name = "A",
+                       Rate = 50,
+                       SkuQuantity = 2
+                   },
+                   new SkuRequest()
+                   {
+                       Name = "C",
+                       Rate = 50,
+                       SkuQuantity = 1
+                   },
+                    new SkuRequest()
+                   {
+                       Name = "D",
+                       Rate = 50,
+                       SkuQuantity = 1
+                   }
+               }
+            };
+            mockRepository.Setup((x) => x.GetPromotion(It.IsAny<Guid>())).Returns(mockPromotions[1]);
+            mockRepository.Setup((x) => x.GetPromotionType(It.IsAny<Guid>())).Returns(mockPromotionTypes[0]);
+
+            // Act
+            var result = _promotionsController.CalculateOrderWithPromotion(mockRequest);
+
+            // Assert
+            Assert.AreEqual(130, result);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void CalculateOrderWithPromotion_OnValdInput_ShouldCalculateBasedOnPromotion_Promo2_Scenario2()
+        {
+            // Arrange
+            var mockRequest = new CalculatePromotionRequest()
+            {
+                PromotionId = "1AA7E44F-6C5D-46CB-84D0-87720CDB58E3",
+                Skus = new List<SkuRequest>()
+               {
+                   new SkuRequest()
+                   {
+                       Name = "A",
+                       Rate = 50,
+                       SkuQuantity = 2
+                   },
+                   new SkuRequest()
+                   {
+                       Name = "C",
+                       Rate = 50,
+                       SkuQuantity = 2
+                   }
+               }
+            };
+            mockRepository.Setup((x) => x.GetPromotion(It.IsAny<Guid>())).Returns(mockPromotions[1]);
+            mockRepository.Setup((x) => x.GetPromotionType(It.IsAny<Guid>())).Returns(mockPromotionTypes[0]);
+
+            // Act
+            var result = _promotionsController.CalculateOrderWithPromotion(mockRequest);
+
+            // Assert
+            Assert.AreEqual(200, result);
         }
     }
 }
