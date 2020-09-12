@@ -28,5 +28,13 @@ namespace MaerskCodingTest.PromotionEngine.Service.Controllers
         {
             return _promotionsRepository.GetPromotion(id);
         }
+
+        [HttpPost]
+        public bool Post([FromBody] Promotion promotion)
+        {
+            if (promotion == null) return false;
+
+            return _promotionsRepository.AddPromotion(promotion);
+        }
     }
 }

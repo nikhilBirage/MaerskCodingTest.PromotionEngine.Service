@@ -8,6 +8,7 @@ namespace MaerskCodingTest.PromotionEngine.Service.Repository
     {
         IEnumerable<Promotion> GetPromotions();
         Promotion GetPromotion(Guid id);
+        bool AddPromotion(Promotion promotion);
     }
 
     public class PromotionsRepository : IPromotionsRepository
@@ -21,5 +22,19 @@ namespace MaerskCodingTest.PromotionEngine.Service.Repository
         {
             return PromotionsDb.promotions.Find(x => x.Id == id);
         }
+
+        public bool AddPromotion(Promotion promotion)
+        {
+            try
+            {
+                PromotionsDb.promotions.Add(promotion);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

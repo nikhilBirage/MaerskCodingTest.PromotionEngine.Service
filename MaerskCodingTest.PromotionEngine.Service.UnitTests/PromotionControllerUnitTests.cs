@@ -79,5 +79,34 @@ namespace MaerskCodingTest.PromotionEngine.Service.UnitTests
             Assert.IsNull(result);
         }
 
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void Post_OnValidInput_ShouldAddPromotion()
+        {
+            // Arrange
+            Promotion promotion = new Promotion();
+            mockRepository.Setup(x => x.AddPromotion(It.IsAny<Promotion>())).Returns(true);
+
+            // Act
+            var result = _promotionsController.Post(promotion);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void Post_OnNullInput_ShouldNotAddPromotion()
+        {
+            // Arrange
+            mockRepository.Setup(x => x.AddPromotion(It.IsAny<Promotion>())).Returns(true);
+
+            // Act
+            var result = _promotionsController.Post(null);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
     }
 }
